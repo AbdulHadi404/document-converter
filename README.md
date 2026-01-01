@@ -16,6 +16,7 @@ Convert PDF and DOCX files to Markdown format with industry-leading 95-99% accur
 - ✅ **Full Content Extraction** - Text, images, tables, formatting
 - ✅ **Automatic Image Extraction** - All images preserved and referenced
 - ✅ **OCR Support** - Handles scanned/image-based PDFs
+- ✅ **Markdown to PDF** - Beautiful PDF conversion with preserved formatting
 - ✅ **Smart Processing** - Uses best tool for each document type
 - ✅ **Production Ready** - Clean markdown output, no manual fixes needed
 
@@ -26,45 +27,72 @@ Convert PDF and DOCX files to Markdown format with industry-leading 95-99% accur
 ### Prerequisites
 
 #### System Tools
+
 - **Pandoc** (for DOCX conversion)
+
   ```bash
   # Windows (Scoop)
   scoop install pandoc
-  
+
   # Windows (Chocolatey)
   choco install pandoc
-  
+
   # Linux
   sudo apt-get install pandoc
-  
+
   # macOS
   brew install pandoc
   ```
 
 - **Tesseract OCR** (for scanned PDFs)
+
   ```bash
   # Windows: Download from https://github.com/UB-Mannheim/tesseract/wiki
   # Linux
   sudo apt-get install tesseract-ocr
-  
+
   # macOS
   brew install tesseract
   ```
 
 - **Poppler** (for PDF to image conversion)
+
   ```bash
   # Windows (Scoop)
   scoop install poppler
-  
+
   # Windows: Download from https://github.com/oschwartz10612/poppler-windows/releases/
   # Linux
   sudo apt-get install poppler-utils
-  
+
   # macOS
   brew install poppler
   ```
 
+- **LaTeX** (for Markdown to PDF conversion - recommended)
+
+  ```bash
+  # Windows: Install MiKTeX from https://miktex.org/download
+  # Linux
+  sudo apt-get install texlive-xetex texlive-latex-extra
+
+  # macOS
+  brew install --cask mactex
+  ```
+
+  **Alternative:** wkhtmltopdf (lighter weight option)
+
+  ```bash
+  # Windows: Download from https://wkhtmltopdf.org/downloads.html
+  # Linux
+  sudo apt-get install wkhtmltopdf
+
+  # macOS
+  brew install wkhtmltopdf
+  ```
+
 #### Python Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -72,12 +100,14 @@ pip install -r requirements.txt
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/document-converter.git
    cd document-converter
    ```
 
 2. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -95,6 +125,7 @@ pip install -r requirements.txt
 
 ### Basic Usage
 
+**Batch Conversion:**
 Place your documents in a `todo/` folder and run:
 
 ```bash
@@ -106,6 +137,16 @@ python doc_converter.py
 ```
 
 Output will be saved to `todo_final/` with all markdown files and extracted images.
+
+**Single File Conversion (Markdown to PDF):**
+
+```bash
+# Convert a specific markdown file to PDF
+python doc_converter.py path/to/document.md [output_directory]
+
+# Example
+python doc_converter.py SYSTEM_VERIFIERS_AND_ANALYTICS_DOCUMENTATION.md
+```
 
 ### Custom Input/Output
 
@@ -134,18 +175,29 @@ python doc_converter.py
 ## 🎯 What It Does
 
 ### DOCX Files
+
 - Uses **Pandoc** for conversion (95-98% quality)
 - Automatically extracts all images
 - Preserves formatting, tables, and structure
 - Falls back to Mammoth if Pandoc unavailable
 
 ### PDF Files
+
 - Enhanced text extraction with pdfplumber
 - Automatic OCR for scanned/image-based PDFs (300 DPI)
 - Table detection and conversion
 - Page images saved for reference
 
+### Markdown Files
+
+- Beautiful PDF conversion with preserved formatting
+- Professional styling (headers, code blocks, tables, images)
+- Syntax highlighting for code blocks
+- Proper page margins and typography
+- Automatic image embedding
+
 ### Output Quality
+
 - **Text:** 95-99% accuracy
 - **Images:** 100% extracted and referenced
 - **Tables:** Perfect markdown formatting
@@ -181,6 +233,7 @@ OCR_DPI = 300                # OCR resolution
 ### Customization
 
 Edit `doc_converter.py` to customize:
+
 - Input/output directories
 - OCR settings
 - Image extraction options
@@ -191,6 +244,7 @@ Edit `doc_converter.py` to customize:
 ## 📊 Performance
 
 ### Test Results (100 documents)
+
 - **Success Rate:** 99%
 - **Images Extracted:** 469
 - **Average Quality:** 95-99%
@@ -203,12 +257,13 @@ Edit `doc_converter.py` to customize:
 
 ### Conversion Methods
 
-| File Type | Tool | Quality |
-|-----------|------|---------|
-| DOCX | Pandoc | 95-98% |
-| DOCX (fallback) | Mammoth | 90-93% |
-| PDF (text) | pdfplumber | 80-88% |
-| PDF (scanned) | OCR (Tesseract) | 85-90% |
+| File Type       | Tool            | Quality                     |
+| --------------- | --------------- | --------------------------- |
+| DOCX            | Pandoc          | 95-98%                      |
+| DOCX (fallback) | Mammoth         | 90-93%                      |
+| PDF (text)      | pdfplumber      | 80-88%                      |
+| PDF (scanned)   | OCR (Tesseract) | 85-90%                      |
+| Markdown → PDF  | Pandoc + LaTeX  | 100% (formatting preserved) |
 
 ### Dependencies
 
@@ -227,6 +282,7 @@ Edit `doc_converter.py` to customize:
 
 **Input:** `document.docx`  
 **Output:** `document.md` with:
+
 - All text content
 - Extracted images in `images/document/`
 - Proper markdown formatting
@@ -235,6 +291,7 @@ Edit `doc_converter.py` to customize:
 ### Image References
 
 Images are automatically referenced:
+
 ```markdown
 ![Description](images/document-name/media/image1.png)
 ```
@@ -244,6 +301,7 @@ Images are automatically referenced:
 ## 🐛 Troubleshooting
 
 ### Pandoc Not Found
+
 ```bash
 # Verify installation
 pandoc --version
@@ -254,6 +312,7 @@ pandoc --version
 ```
 
 ### Tesseract Not Found
+
 ```bash
 # Verify installation
 tesseract --version
@@ -262,6 +321,7 @@ tesseract --version
 ```
 
 ### Poppler Not Found
+
 ```bash
 # Verify installation
 pdfinfo -v
@@ -270,6 +330,7 @@ pdfinfo -v
 ```
 
 ### Images Not Displaying
+
 - Ensure `images/` folder is in the same directory as markdown files
 - Check that image paths are relative (not absolute)
 - Verify image files exist in expected locations
@@ -306,10 +367,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📧 Support
 
 For issues, questions, or contributions:
+
 - Open an issue on GitHub
 - Check existing issues and discussions
 
 ---
+
+## 📄 Markdown to PDF Features
+
+The markdown to PDF conversion produces beautiful, professional PDFs with:
+
+- **Professional Typography** - Georgia serif font with proper line spacing
+- **Styled Headers** - Color-coded headers with borders
+- **Code Highlighting** - Syntax-highlighted code blocks with dark theme
+- **Table Formatting** - Clean, bordered tables with alternating row colors
+- **Image Embedding** - All images automatically embedded in PDF
+- **Page Numbers** - Automatic page numbering
+- **Proper Margins** - 2.5cm margins for professional appearance
+- **Link Styling** - Blue, clickable links
+
+Perfect for documentation, reports, and technical documents!
 
 ## ⭐ Features Roadmap
 
@@ -323,4 +400,4 @@ For issues, questions, or contributions:
 
 **Made with ❤️ for document conversion**
 
-*Last Updated: December 31, 2025*
+_Last Updated: December 31, 2025_
